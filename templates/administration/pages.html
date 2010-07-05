@@ -1,0 +1,29 @@
+{% extends "administration/base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+<div class="list">
+    <div class="header">
+        Pages...
+    </div>
+    <div class="body">
+        {% for page in pages %}
+            <div class="item">
+                <a href="/+admin/pages/{{ page.id }}">
+                    <img style="border: none; margin-right: 5px; float: left;" src="/static/images/icons/page.png" />
+                    <div style="float: left;">
+                        <span style="font-family: Sans; font-weight: bold;">{{ page.title }}</span> <span style="color: #A2A2A2;">[{% for l in page.locations.all %}<span style="font-family: Monospace;">/{{ l.location }}</span>, {% endfor %}]</span><br />
+                        <span style="font-size: .8; color: #A2A2A2; font-family: Sans;">Latest update: {{ page.last_update }}</span>
+                    </div>
+                    <div style="clear: both;"></div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="footer">
+        » Create a new page...
+    </div>
+</div>
+{% endblock %}

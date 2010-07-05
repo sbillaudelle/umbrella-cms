@@ -1,0 +1,55 @@
+{% extends "administration/base.html" %}
+
+{% block head %}
+<script type="text/javascript">
+function toggle_language(code, name) {
+    if($('lang_' + code).className == 'item') {
+        var req = new Request.JSON({
+            url: '/+admin/api',
+            onSuccess: function(response){
+                if(response == true) {
+                    $('lang_' + code).className = 'item-active';
+                }
+            }
+        }).post({
+            method: 'add_language',
+            code: code,
+            name: name
+        });
+    } else {
+        var req = new Request.JSON({
+            url: '/+admin/api',
+            onSuccess: function(response){
+                if(response == true) {
+                    $('lang_' + code).className = 'item';
+                }
+            }
+        }).post({
+            method: 'remove_language',
+            code: code,
+            name: name
+        });
+    }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="box">
+    <div class="help">
+        <p>The languages selected in the list below will be available for translation. Languages selected will be highlighted.</p>
+        <p>You may select/unselect a language by clicking on it.</p>
+    </div>
+    <table style="width: 100%; table-layout: fixed;">
+        {% for c, l, s in languages %}
+            {% if forloop.counter0|divisibleby:"5" %}<tr>{% endif %}
+            <td>
+                <div id="lang_{{ c }}" onclick="javascript: toggle_language('{{ c }}', '{{ l }}');" class="item{% if s %} green{% endif %}" style="cursor: pointer;">
+                    {{ l }}
+                </div>
+            </td>
+            {% if forloop.counter|divisibleby:"5" %}</tr>{% endif %}
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

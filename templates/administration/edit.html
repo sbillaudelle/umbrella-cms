@@ -1,0 +1,26 @@
+{% extends "administration/base.html" %}
+
+{% block head %}
+    <script type="text/javascript">
+function save_changes(code, name) {
+    var req = new Request.JSON({
+        url: '/+admin/api',
+    }).post({
+        method: 'save_page',
+        id: {{ translation.id }},
+        content: CKEDITOR.instances.editor.getData()
+    });
+}
+    </script>
+{% endblock %}
+
+{% block content %}
+<textarea name="editor">{{ content }}</textarea>
+<script type="text/javascript">
+    CKEDITOR.replace('editor');
+</script>
+<div onclick="javascript: save_changes();" class="button" style="float: right;">
+    Save Changes!
+</div>
+<div style="clear: both;"></div>
+{% endblock %}
