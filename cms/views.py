@@ -4,9 +4,16 @@ from django.utils.safestring import mark_safe
 
 import json
 
-from models import Page, PageTranslation, Link, LinkTranslation, Location, Language
+from models import Page, PageTranslation, Link, LinkTranslation, Location, Language, Settings
 
 from languages import languages as languages
+
+class AdminPageModeThingy:
+    overview = False
+    edit = False
+    locations = False
+    stats = False
+    
 
 def view(request, path):
 
@@ -56,10 +63,13 @@ def view(request, path):
 def admin_api(request):
 
     if request.POST['method'] == 'add_location':
-        l = Location()
-        l.location = request.POST['location']
-        l.page = Page.objects.filter(id=request.POST['page']).get()
-        l.save()
+        try:
+            l = Location()
+            l.location = request.POST['location']
+            l.page = Page.objects.filter(id=request.POST['page']).get()
+            l.save()
+        except Exception, e:
+            print e
         return HttpResponse(json.dumps({
             'location': l.location,
             'id': l.id,
@@ -82,9 +92,30 @@ def admin_api(request):
         return HttpResponse('true')
     elif request.POST['method'] == 'save_page':
         translation = PageTranslation.objects.filter(id=request.POST['id']).get()
+        translation.title = request.POST['title']
         translation.content = request.POST['content']
         translation.save()
         return HttpResponse('true')
+    elif request.POST['method'] == 'delete_page':
+        page = Page.objects.filter(id=request.POST['id']).get()
+        page.delete()
+        return HttpResponse('true')
+    elif request.POST['method'] == 'add_page':
+        try:
+            page = Page()
+            page.save()
+        except Exception, e:
+            print e
+        return HttpResponse('true')
+    elif request.POST['method'] == 'add_link':
+        link = Link()
+        link.title = request.POST['code']
+        #link.name = request.POST['name']
+        link.save()
+        return HttpResponse('true')
+    elif request.POST['method'] == 'remove_link':
+        lang = Language.objects.filter(code=request.POST['code']).get()
+        lang.delete()
     else:
         print request.POST
         return HttpResponse('')
@@ -116,15 +147,26 @@ def admin_languages(request):
     return render_to_response('administration/languages.html', {'languages': langs})
 
 
-def admin_page(request, page):
+def admin_navigation(request):
+
+    navigation = Link.objects.all()
+
+    return render_to_response('administration/navigation.html', {'navigation': navigation})
+
+
+def admin_page_overview(request, page):
 
     p = Page.objects.filter(id=page).get()
 
-    langs = Language.objects.all()
+    langs = Language.objects.all().order_by('name')
 
-    return render_to_response('administration/page.html', {
+    apmt = AdminPageModeThingy()
+    apmt.overview = True
+
+    return render_to_response('administration/page_overview.html', {
         'page': p,
-        'languages': langs
+        'languages': langs,
+        'apmt': apmt
         })
 
 
@@ -153,10 +195,40 @@ def admin_page_edit(request, page, lang):
 
     langs = Language.objects.all()
 
-    return render_to_response('administration/edit.html', {
+    apmt = AdminPageModeThingy()
+    apmt.edit = True
+
+    return render_to_response('administration/page_edit.html', {
         'page': p,
         'translation': translation,
         'title': title,
         'content': content,
-        'languages': langs
+        'languages': langs,
+        'apmt': apmt
+        })
+
+
+def admin_page_locations(request, page):
+
+    p = Page.objects.filter(id=page).get()
+
+    apmt = AdminPageModeThingy()
+    apmt.locations = True
+
+    return render_to_response('administration/page_locations.html', {
+        'page': p,
+        'apmt': apmt
+        })
+
+
+def admin_page_statistics(request, page):
+
+    p = Page.objects.filter(id=page).get()
+
+    apmt = AdminPageModeThingy()
+    apmt.statistics = True
+
+    return render_to_response('administration/page_statistics.html', {
+        'page': p,
+        'apmt': apmt
         })

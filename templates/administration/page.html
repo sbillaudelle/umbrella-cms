@@ -1,66 +1,71 @@
 {% extends "administration/base.html" %}
 
 {% block head %}
+<script type="text/javascript">
+function delete_page() {
+    var req = new Request.JSON({
+        url: '/+admin/api',
+    }).post({
+        method: 'delete_page',
+        id: {{ page.id }}
+    });
+}
+function add_location() {
+    var req = new Request.JSON({
+        url: '/+admin/api',
+    }).post({
+        method: 'add_location',
+        location: $('location_entry').get('value'),
+        page: {{ page.id }},
+    });
+}
+</script>
 {% endblock %}
 
 {% block content %}
-<div class="box">
-    <h3>Make this page available:</h3>
-    <div style="width: 45%; float: left;">
-        <div class="list">
-            <div class="header">
-                Locations...
-            </div>
-            <div class="body">
-                {% for l in page.locations.all %}
-                    <div class="item">
-                        <span style="color: #929292;">http://rutasmenorca.com</span>/{{ l.location }}
-                        <span style="float: right;" class="remove_location_button" id="{{ l.id }}">[x]</span>
-                    </div>
-                {% endfor %}
-            </div>
-            <div class="footer">
-                <div class="input" style="font-size: 1em; font-family: Mono; font-weight: normal; width: 75%; float: left;">
-                    <span style="color: #929292;">http://rutasmenorca.com/</span><input id="location_entry" type="text" style="width: 30%; margin: 0px; padding: 0px; background: none; border: none; -moz-box-shadow: none;"/>
-                </div>
-                <div class="button" id="add_link" style="width: 12%;">
-                    Add!
-                </div>
-                <div style="clear: both;"></div>
-            </div>
+
+<div style="margin: 20px 0px;">
+    <img style="vertical-align: middle;" src="/static/images/icons/page.png" />
+    <span style="vertical-align: middle; text-decoration: underline; color: #888888; font-size: 2em;">{{ page.title }}</span>
+    <div style="float: right;">
+        <div class="button plain">
+            <a href="/{{ page.locations.all|first }}">View Page</a>
+        </div>
+        <div onclick="javascript: delete_page();" class="button plain">
+            Delete Page
         </div>
     </div>
-    <div style="width: 55%; float: right;">
-        <div class="help">
-            <p>You need to make this page available and to assign one or more locations to it under which the page will be accessable.</p>
-            <p>
-                e. g.: <span style="color: #929292;">http://rutasmenorca.com</span>/my_page
-            </p>
-        </div>
-    </div>
-    <div style="clear: both;"></div>
 </div>
 
-    <div class="list" style="width: 54%; float: left;">
-        <div class="header">
-            Translations
-        </div>
-        <div class="body">
+<div class="toolbar">
+    <div class="button{% if apmt.overview %} active{% endif %}">
+        <a href="/+admin/pages/{{ page.id }}">Overview</a>
+    </div>
+    <div class="button{% if apmt.edit %} active{% endif %}">
+        <a href="/+admin/pages/{{ page.id }}/edit/en">Edit</a>
+    </div>
+    <div class="button{% if apmt.locations %} active{% endif %}">
+        <a href="/+admin/pages/{{ page.id }}/locations">Locations</a>
+    </div>
+    <div class="button{% if apmt.statistics %} active{% endif %}">
+        <a href="/+admin/pages/{{ page.id }}/statistics">Statistics</a>
+    </div>
+
+    {% if apmt.edit %}
+    <div class="selector" onclick="javascript: document.getElementById('language_menu').style.display = 'block';" style="position: relative;">
+        English
+        <div id="language_menu" class="menu">
             {% for l in languages %}
-                <a href="{{ page.id }}/edit/{{ l.code }}">
-                    <div class="item" style="cursor: pointer; {% if forloop.counter|divisibleby:"2" %}background-color: #FAFAFA;{% endif %} {% if forloop.last %}{% else %}border-bottom: 1px solid #E8E8E8;{% endif %}">
-                        {{ l.name }}
-                    </div>
-                </a>
+                <div class="option"><a href="/+admin/pages/{{ page.id }}/edit/{{ l.code }}">{{ l.name }}{% if l.default %} <span style="float: right; color: #186291;">default</span>{% endif %}</a></div>
             {% endfor %}
         </div>
-        <div class="footer">
-            <a href="/+admin/languages">» Manage languages...</a>
-        </div>
     </div>
-    <div class="help" style="width: 40%; float: right;">
-        <p>This page is available in multiple languages. Please select one from the list on the left to edit this language's version of the page.</p>
-        <p>If you want to add or remove a language from that list, please refer to »Manage languages...«</p>
-    </div>
-    <div style="clear: both;"></div>
+    {% endif %}
+</div>
+
+<div style="margin-top: 20px;">
+    {% block page %}
+    {% endblock %}
+</div>
+
 {% endblock %}

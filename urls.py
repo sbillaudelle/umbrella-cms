@@ -4,6 +4,9 @@ from django.conf.urls.defaults import *
 from django.contrib import admin
 admin.autodiscover()
 
+import os.path
+from settings import ROOT_DIR
+
 urlpatterns = patterns('',
     # Example:
     # (r'^telephone/', include('telephone.foo.urls')),
@@ -14,6 +17,6 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
-    (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/stein/Labs/Web/CMS/telephone/static'}),
+    (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': os.path.join(ROOT_DIR, 'static')}),
     (r'', include('cms.urls'))
 )

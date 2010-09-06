@@ -10,10 +10,7 @@
     <script type="text/javascript" src="/static/scripts/mootools.js"></script>
     <script type="text/javascript" src="/static/ckeditor/ckeditor.js"></script>
 
-    <script 
-  src="http://twitterjs.googlecode.com/svn/trunk/src/twitter.min.js"
-  type="text/javascript">
-</script>
+    <script src="http://twitterjs.googlecode.com/svn/trunk/src/twitter.min.js" type="text/javascript"></script>
 
     <link rel="stylesheet" type="text/css" href="/static/slideshow/css/slideshow.css" media="screen" />
 
@@ -28,7 +25,9 @@
         font-size: 13px;
         font-family: Serif;
 
-        background-color: #DADADA;
+        background-color: #ffffff;
+        background-image: url(/static/images/background.png);
+        background-repeat: repeat-x;
     }
 
     a {
@@ -46,13 +45,13 @@
         margin-left: auto;
         margin-right: auto;
 
-        -moz-border-radius: 5px;
-        background-color: rgba(255, 255, 255, 1);
-        -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, .6);
+        //-moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, .6);
     }
 
     #content {
-        padding: 10px;
+        padding: 20px 30px 20px 30px;
+        background-image: url(/static/images/page_head.png);
+        background-repeat: repeat-x;
     }
 
     #header {
@@ -63,7 +62,6 @@
         font-family: Sans;
 
         background-image: url(/static/images/banner.png);
-        border-bottom: 1px solid #1E3E5C;
     }
 
     #page > #header > #navigation {
@@ -77,10 +75,10 @@
         -webkit-border-bottom-right-radius: 5px;
     
         background: -webkit-gradient(linear, left 0%, left 100%, from(rgba(250, 250, 250, .7)), to(rgba(200, 200, 200, .7)));
-        background: -moz-linear-gradient(top center, rgba(250, 250, 250, .7), rgba(200, 200, 200, .7));
+        background: -moz-linear-gradient(top center, rgba(250, 250, 250, .8), rgba(240, 240, 240, .8));
     
-        -webkit-box-shadow: 0px 0px 5px rgba(1, 1, 1, .7);
-        -moz-box-shadow: 0px 0px 5px rgba(1, 1, 1, .7);
+        -webkit-box-shadow: 0px 0px 3px rgba(1, 1, 1, .4);
+        -moz-box-shadow: 0px 0px 3px rgba(1, 1, 1, .4);
     
         color: #555555;
         font-size: 1em;
@@ -99,7 +97,6 @@
         text-decoration: underline;
     }
 
-
     p {
         font-size: 1em;
     }
@@ -113,6 +110,43 @@
         margin: 0px;
         margin-bottom: 5px;
         list-style: none;
+    }
+
+    .dropdown {
+        display: inline-block;
+        padding: 3px 8px 3px 8px;
+        background-color: #ffffff;
+        -moz-box-shadow: 0px 0px 2px rgba(0, 0, 0, .2);
+    }
+
+    .dropdown:after {
+        margin-left: 5px;
+        content: url(/static/images/dropdown.png);
+    }
+
+    .dropdown .option {
+        display: none;
+    }
+
+    .menu {
+        margin-top: 10px;
+        display: none;
+        position: absolute;
+        background-color: #ffffff;
+        -moz-box-shadow: 0px 0px 2px rgba(0, 0, 0, .4);
+        right: 0px;
+        min-width: 160px;
+        z-index: 1000;
+    }
+
+    .menu .option {
+        display: block;
+        padding: 5px 10px;
+        border-top: 1px solid #dddddd;
+    }
+
+    .menu .option:first-child {
+        border-top: none;
     }
 
     .page {
@@ -139,9 +173,36 @@
         -moz-box-shadow: 0px 0px 2px rgba(0, 0, 0, .1);
     }
 
+    .section {
+        margin: 10px;
+        background: #FFFFFF;
+        -moz-border-radius: 5px;
+        -moz-box-shadow: 0px 0px 3px rgba(0, 0, 0, .3);
+    }
+
+    .section .header {
+        font-family: Sans;
+        font-weight: bold;
+        padding: 5px 8px 5px 8px;
+        -moz-border-radius-topleft: 5px;
+        -moz-border-radius-topright: 5px;
+        background:
+            -moz-linear-gradient(
+                center top,
+                rgb(240, 240, 240) 0%,
+                rgb(220, 220, 220) 100%
+            );
+        border-bottom: 1px solid #CACACA;
+        color: #555555;
+    }
+
+    .section .body {
+        padding: 10px;
+    }
+
     .button {
+        display: inline-block;
         cursor: pointer;
-        float: right;
         padding: 8px 12px 8px 12px;
         margin: 5px;
 
@@ -156,6 +217,24 @@
         border: 1px solid #C8C8C8;
         -moz-border-radius: 50px;
         -moz-box-shadow: 0px 0px 2px rgba(0, 0, 0, .2);
+        vertical-algin: middle;
+        }
+
+    input {
+        padding: 8px 12px 8px 12px;
+        margin: 5px;
+
+        font-family: Sans;
+
+        background:
+            -moz-linear-gradient(
+                center bottom,
+                rgb(255, 255, 255) 0%,
+                rgb(245, 245, 245) 100%
+            );
+        border: 1px solid #C8C8C8;
+        -moz-border-radius: 50px;
+        -moz-box-shadow:inset 1px 1px 1px rgba(0, 0, 0, .1);
         }
 
     .list .footer .button {
@@ -321,7 +400,132 @@
         -moz-border-radius: 5px;
         -moz-box-shadow: 0px 0px 2px rgba(0, 0, 0, .1);
     }
+
+    .toolbar {
+        -moz-border-radius: 5px;
+        background:
+            -moz-linear-gradient(
+                center top,
+                rgb(235, 235, 235) 0%,
+                rgb(220, 220, 220) 100%
+            );
+        -moz-box-shadow: 0px 0px 2px rgba(0, 0, 0, .1);
+        border: 1px solid #cccccc;
+    }
+
+    .toolbar .button {
+        padding: 5px 10px 5px 10px;
+        background: none;
+        border: none;
+        -moz-box-shadow: none;
+        -moz-border-radius: 5px;
+    }
+
+    .toolbar .active {
+        background: 
+            -moz-linear-gradient(
+                center top,
+                rgb(255, 255, 255) 0%,
+                rgb(250, 250, 250) 100%
+            );
+        border: none;
+        -moz-box-shadow: inset 1px 1px 0px rgba(0, 0, 0, .2);
+    }
+
+    .plain {
+        padding: 5px 8px;
+        font-size: .9em;
+        background: none;
+        background-color: #eaeaea;
+        border: 1px solid #dddddd;
+        -moz-box-shadow: none;
+        -moz-border-radius: 3px;
+    }
+
+    .toolbar .selector {
+        background-color: rgba(255, 255, 255, .4);
+        padding: 10px 10px;
+        float: right;
+        border-left: 1px solid #cccccc;
+        -moz-border-radius-topright: 3px;
+        -moz-border-radius-bottomright: 3px;
+    }
+
+    .toolbar .selector:after {
+        margin-left: 5px;
+        content: url(/static/images/dropdown.png);
+    }
+
+    .info {
+        margin: 10px;
+        padding: 10px;
+        background-color: rgba(64, 114, 163, .05);
+        background-image: url(/static/images/icons/info.png);
+        background-repeat: no-repeat;
+
+        font-style: italic;
+        
+        border: 1px solid rgba(64, 114, 163, .2);
+        -moz-border-radius: 5px;
+        -moz-box-shadow: 0px 0px 2px rgba(0, 0, 0, .1);
+    }
+
+    .info p:first-child {
+        margin-top: 0px;
+    }
+
+    .error {
+        margin: 10px;
+        padding: 10px;
+        background-color: rgba(120, 0, 0, .05);
+        background-image: url(/static/images/icons/info.png);
+        background-repeat: no-repeat;
+
+        font-style: italic;
+        
+        border: 1px solid rgba(120, 0, 0, .2);
+        -moz-border-radius: 5px;
+        -moz-box-shadow: 0px 0px 2px rgba(0, 0, 0, .1);
+    }
+
+    .error p:first-child {
+        margin-top: 0px;
+    }
     </style>
+    <script type="text/javascript">
+    var DropDown = new Class({
+        Implements: Events,
+        initialize: function(obj) {
+            this.object = obj;
+            this.active = null;
+            //alert(obj);
+            var menu = document.createElement("div");
+            menu.set('class', 'menu');
+            menu.innerHTML = obj.innerHTML;
+            obj.innerHTML = '<span id="active"></span>';
+
+            obj.grab(menu);
+
+            dropdown = this;
+
+            this.object.addEvent('click', function() {
+                if(menu.style.display == 'none') {
+                    menu.style.display = 'block';
+                } else {
+                    menu.style.display = 'none';
+                }
+                });
+
+            menu.getElements('.option').each(function(option) {
+                option.dropdown = dropdown;
+                option.addEvent('click', function() {
+                    dropdown.active = option.id;
+                    dropdown.object.getElement('#active').innerHTML = option.innerHTML;
+                });
+            });
+        }
+    });
+    </script>
     {% block head %}{% endblock %}
 </head>
 
@@ -331,6 +535,7 @@
             <ul id="navigation">
                 <li><a href="/+admin">Home</a></li>
                 <li><a href="/+admin/pages">Pages</a></li>
+                <li><a href="/+admin/navigation">Navigation</a></li>
                 <li><a href="/+admin/languages">Localisation</a></li>
                 <li>|</li>
                 <li><a href="/home">View Page</a></li>

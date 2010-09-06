@@ -1,7 +1,11 @@
-# Django settings for telephone project.
+# Django settings for umbrella project.
+
+import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+
+ROOT_DIR = os.getcwd()
 
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
@@ -75,7 +79,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'telephone.urls'
+ROOT_URLCONF = 'umbrella.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".

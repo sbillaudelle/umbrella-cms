@@ -1,6 +1,15 @@
 {% extends "administration/base.html" %}
 
 {% block head %}
+<script type="text/javascript">
+function add_page(code, name) {
+    var req = new Request.JSON({
+        url: '/+admin/api',
+    }).post({
+        method: 'add_page'
+    });
+}
+</script>
 {% endblock %}
 
 {% block content %}
@@ -10,7 +19,7 @@
     </div>
     <div class="body">
         {% for page in pages %}
-            <div class="item">
+            <div class="item" style="{% if forloop.counter|divisibleby:"2" %}background-color: #FAFAFA;{% endif %} {% if forloop.last %}{% else %}border-bottom: 1px solid #E8E8E8;{% endif %}">
                 <a href="/+admin/pages/{{ page.id }}">
                     <img style="border: none; margin-right: 5px; float: left;" src="/static/images/icons/page.png" />
                     <div style="float: left;">
@@ -23,7 +32,7 @@
         {% endfor %}
     </div>
     <div class="footer">
-        » Create a new page...
+        <a href="javascript: add_page();">» Create a new page...</a>
     </div>
 </div>
 {% endblock %}
